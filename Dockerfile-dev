@@ -1,0 +1,23 @@
+# syntax=docker/dockerfile:1
+FROM python:3.10.9
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /code
+
+RUN groupadd -r web
+RUN useradd -d /code -r -g web web
+
+COPY requirements.txt /code/
+
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+COPY . /code/
+RUN python manage.py collectstatic --noinput
+RUN chown web:web -R /code
+
+USER web
+
+ENTRYPOINT ["./entrypoint.sh"]

@@ -1,0 +1,35 @@
+version: '3'
+services:
+  pochtamt_db:
+    image: postgres:15.3
+    container_name: pochtamt_db
+    hostname: pochtamt_db
+    env_file:
+      - ./.env
+    ports:
+      - 5432:5432
+    volumes:
+      # - ./data/postgres:/docker-entrypoint-initdb.d
+      - pochtamt_db_volume:/var/lib/postgresql/data
+    restart: unless-stopped 
+
+  pochtamt_web:
+    build: 
+      context: ./
+      dockerfile: Dockerfile-dev
+    container_name: pochtamt_web
+    hostname: pochtamt_web
+    env_file:
+      - ./.env
+    ports:
+      - 8000:8000
+    depends_on:
+      - pochtamt_db
+    restart: unless-stopped
+    command:
+      - /bin/sh
+      - -c
+      - sleep 1000
+
+volumes:
+  pochtamt_db_volume:
