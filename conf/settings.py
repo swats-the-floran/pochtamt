@@ -115,10 +115,13 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
+LOCALE_PATHS = ['movies/locale']
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-LOCALE_PATHS = ['movies/locale']
+LETTER_ATTACHMENT_DIR = os.path.join('media', 'attachments')
+MAX_LETTER_ATTACHMENT_SIZE = 10 * 1024 * 1024
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
