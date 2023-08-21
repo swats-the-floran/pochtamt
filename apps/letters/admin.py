@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Attachment, Letter
+
+admin.site.register(Attachment)
+admin.site.register(Letter)
