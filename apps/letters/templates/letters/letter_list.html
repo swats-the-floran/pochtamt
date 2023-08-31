@@ -1,0 +1,15 @@
+{% block content %}
+  <h1>Your letters, mylord.</h1>
+  {% if letter_list %}
+    <ul>
+      {% for letter in letter_list %}
+      <li>
+        <a href="{{ letter.get_absolute_url }}">{{ letter.title }}</a>
+        (from {{ letter.author }} to {{ letter.addressee }})
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Your mailbox is empty, mylord.</p>
+  {% endif %}
+{% endblock %}
