@@ -1,7 +1,9 @@
 import uuid
 
-from django.contrib.auth import get_user_model
+from django.db.models import Q
+from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 from conf.settings import LETTER_ATTACHMENT_DIR, MAX_LETTER_ATTACHMENT_SIZE
 
@@ -27,10 +29,15 @@ class TimeStampedMixin(models.Model):
         abstract = True
 
 
+class LettersManager(models.Manager):
+
+    def my_letters(self, user: User) -> models.QuerySet:
+        """Return  a list of letters where the user is an quthor or an addressee."""
+        return self.get_queryset().filter(Q(author=user) | Q(addressee=user))
+
+
 class Letter(UUIDMixin, TimeStampedMixin):
     """Basically a message from one user to other(s), but has minimal limits for size and delivery time."""
-
-    User = get_user_model()
 
     author = models.ForeignKey(
         User,
@@ -54,6 +61,15 @@ class Letter(UUIDMixin, TimeStampedMixin):
         blank=True,
         null=True,
     )
+
+    objects = LettersManager()
+
+    def __str__(self):
+        return f'{self.id}: {self.title}'
+
+    def get_absolute_url(self):
+        # return reverse('letter-detail', args=[str(self.id)])
+        return reverse('letter-detail', kwargs={'pk': self.pk})
 
 
 class Attachment(UUIDMixin, TimeStampedMixin):

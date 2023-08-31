@@ -21,6 +21,7 @@ from conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('letters/', include('apps.letters.urls'), name='letters'),
 ]
 
 if settings.DEBUG:
