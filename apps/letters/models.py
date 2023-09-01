@@ -1,7 +1,7 @@
 import uuid
 
-from django.db.models import Q
-from django.contrib.auth.models import User
+from django.db.models import Q, QuerySet
+from django.contrib.auth.models import AbstractBaseUser, AnonymousUser, User
 from django.db import models
 from django.urls import reverse
 
@@ -31,7 +31,7 @@ class TimeStampedMixin(models.Model):
 
 class LettersManager(models.Manager):
 
-    def my_letters(self, user: User) -> models.QuerySet:
+    def my_letters(self, user: AbstractBaseUser | AnonymousUser) -> QuerySet:
         """Return  a list of letters where the user is an quthor or an addressee."""
         return self.get_queryset().filter(Q(author=user) | Q(addressee=user))
 
@@ -64,11 +64,10 @@ class Letter(UUIDMixin, TimeStampedMixin):
 
     objects = LettersManager()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'{self.id}: {self.title}'
 
-    def get_absolute_url(self):
-        # return reverse('letter-detail', args=[str(self.id)])
+    def get_absolute_url(self) -> str:
         return reverse('letter-detail', kwargs={'pk': self.pk})
 
 

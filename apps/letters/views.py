@@ -6,7 +6,7 @@ from django.views.generic import CreateView, DetailView, ListView
 from .models import Letter
 
 
-class LetterCreateView(CreateView):
+class LetterCreateView(LoginRequiredMixin, CreateView):
 
     model = Letter
     template_name = 'letters/letter_create.html'
@@ -23,7 +23,7 @@ class LetterCreateView(CreateView):
         return super().form_valid(form)
 
 
-class LetterDetailView(DetailView):
+class LetterDetailView(LoginRequiredMixin, DetailView):
 
     model = Letter
     template_name = 'letters/letter_detail.html'
