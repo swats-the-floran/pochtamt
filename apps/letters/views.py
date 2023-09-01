@@ -1,13 +1,26 @@
-from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404, HttpRequest, HttpResponse, request
+from django.db.models import QuerySet
+from django.http import Http404, HttpResponse
 from django.views.generic import CreateView, DetailView, ListView
 
 from .models import Letter
 
 
-# class LetterCreateView(CreateView):
-#     pass
+class LetterCreateView(CreateView):
+
+    model = Letter
+    template_name = 'letters/letter_create.html'
+    fields = [
+        'addressee',
+        'title',
+        'text',
+    ]
+
+    def form_valid(self, form) -> HttpResponse:
+        """Fill the author automatically."""
+        form.instance.author = self.request.user
+
+        return super().form_valid(form)
 
 
 class LetterDetailView(DetailView):
@@ -31,5 +44,5 @@ class LetterListView(LoginRequiredMixin, ListView):
     paginate_by = 25
     template_name = 'letters/letter_list.html'
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         return Letter.objects.my_letters(self.request.user)
