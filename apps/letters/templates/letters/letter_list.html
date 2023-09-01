@@ -1,4 +1,7 @@
+{% extends "letters/base.html" %}
+
 {% block content %}
+<div class="container py-5">
   <h1>Your letters, mylord.</h1>
   {% if letter_list %}
     <ul>
@@ -12,4 +15,5 @@
   {% else %}
     <p>Your mailbox is empty, mylord.</p>
   {% endif %}
+</div>
 {% endblock %}
