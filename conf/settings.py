@@ -32,6 +32,7 @@ INTERNAL_IPS = ['127.0.0.1']
 
 INSTALLED_APPS = [
     # django core
+    'jazzmin',  # <- lib
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
