@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
 
     # apps
+    'apps.accounts',
     'apps.letters',
 ]
 
@@ -141,3 +142,5 @@ def show_toolbar(request):
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': show_toolbar,
 }
+
+AUTH_USER_MODEL = 'accounts.User'

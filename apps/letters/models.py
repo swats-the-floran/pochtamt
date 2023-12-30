@@ -1,11 +1,15 @@
 import uuid
 
 from django.db.models import Q, QuerySet
-from django.contrib.auth.models import AbstractBaseUser, AnonymousUser, User
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractBaseUser, AnonymousUser
 from django.db import models
 from django.urls import reverse
 
 from conf.settings import LETTER_ATTACHMENT_DIR, MAX_LETTER_ATTACHMENT_SIZE
+
+
+User = get_user_model()
 
 
 class UUIDMixin(models.Model):
